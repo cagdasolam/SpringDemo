@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Survey;
+import com.example.demo.request.SurveyCreateRequest;
+import com.example.demo.request.SurveyUpdateRequest;
 import com.example.demo.services.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +21,7 @@ public class SurveyController {
 
     @GetMapping
     public List<Survey> getSurvey(){
-        return surveyService.getUsers();
+        return surveyService.getSurveys();
     }
 
     @GetMapping("/{surveyId}")
@@ -28,12 +30,12 @@ public class SurveyController {
     }
 
     @PostMapping
-    public void registerNewSurvey(@RequestBody Survey survey){
-        surveyService.addSurvey(survey);
+    public Survey registerNewSurvey(@RequestBody SurveyCreateRequest newSurvey){
+        return surveyService.addSurvey(newSurvey);
     }
 
     @PutMapping("/{surveyId}")
-    public Survey updateSurvey(@PathVariable Long surveyId, @RequestBody Survey newSurvey){
+    public Survey updateSurvey(@PathVariable Long surveyId, @RequestBody SurveyUpdateRequest newSurvey){
     return  surveyService.updateSurvey(surveyId, newSurvey);
     }
 

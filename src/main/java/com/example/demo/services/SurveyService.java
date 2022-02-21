@@ -1,7 +1,10 @@
 package com.example.demo.services;
 
 import com.example.demo.entity.Survey;
+import com.example.demo.entity.User;
 import com.example.demo.repos.SurveyRepo;
+import com.example.demo.request.SurveyCreateRequest;
+import com.example.demo.request.SurveyUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +15,16 @@ import java.util.Optional;
 public class SurveyService {
 
     private final SurveyRepo surveyRepo;
+    private final UserService userService;
+
 
     @Autowired
-    public SurveyService(SurveyRepo surveyRepo){
+    public SurveyService(SurveyRepo surveyRepo, UserService userService){
         this.surveyRepo = surveyRepo;
+        this.userService = userService;
     }
 
-    public List<Survey> getUsers() {
+    public List<Survey> getSurveys() {
         return surveyRepo.findAll();
     }
 
@@ -27,20 +33,24 @@ public class SurveyService {
     }
 
 
-    public void addSurvey(Survey survey) {
-        Optional<Survey> surveyOptional = surveyRepo.findById(survey.getId());
-        if (surveyOptional.isPresent()){
-            throw new IllegalStateException("survey is already exist");
-        }
-        surveyRepo.save(survey);
+    public Survey addSurvey(SurveyCreateRequest newSurvey) {
+        User user = userService.getOneUser(newSurvey.getUserId());
+        if (user == null)
+            return null;
+        Survey toSave = new Survey();
+        toSave.setId(newSurvey.getId());
+        toSave.setText(newSurvey.getText());
+
+        return surveyRepo.save(toSave);
     }
 
-    public Survey updateSurvey(Long surveyId, Survey newSurvey) {
+    public Survey updateSurvey(Long surveyId, SurveyUpdateRequest newSurvey) {
         Optional<Survey> survey = surveyRepo.findById(surveyId);
         if (survey.isPresent()){
-            Survey foundSurvey =survey.get();
+            Survey foundSurvey = survey.get();
             foundSurvey.setText(newSurvey.getText());
-            return surveyRepo.save(foundSurvey);
+            surveyRepo.save(foundSurvey);
+            return foundSurvey;
         }
         return null;
     }
