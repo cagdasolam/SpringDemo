@@ -8,9 +8,10 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "options")
+@Table(name = "results")
 @Data
-public class Option {
+public class Result {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
@@ -21,7 +22,10 @@ public class Option {
     @JsonIgnore
     Survey survey;
 
-    @Lob
-    @Column(columnDefinition = "text")
-    private String text;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "optionId", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    Option option;
+
 }

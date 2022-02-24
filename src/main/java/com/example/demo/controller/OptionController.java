@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Option;
 import com.example.demo.request.OptionCreateRequest;
 import com.example.demo.request.OptionUpdateRequest;
+import com.example.demo.responses.OptionResponse;
 import com.example.demo.services.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class OptionController {
     }
 
     @GetMapping
-    public List<Option> getAllOptions(@RequestParam Optional<Long> surveyId) {
+    public List<OptionResponse> getAllOptions(@RequestParam Optional<Long> surveyId) {
         return optionService.getAllOptions(surveyId);
     }
 
@@ -45,4 +46,5 @@ public class OptionController {
     public void deleteOption(@PathVariable Long optionId){
         optionService.deleteOption(optionId);
     }
+
 }

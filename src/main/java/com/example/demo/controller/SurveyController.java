@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.entity.Survey;
 import com.example.demo.request.SurveyCreateRequest;
 import com.example.demo.request.SurveyUpdateRequest;
+import com.example.demo.responses.ResultResponse;
+import com.example.demo.responses.SurveyResponse;
 import com.example.demo.services.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +23,18 @@ public class SurveyController {
 
     @GetMapping
     public List<Survey> getSurvey(){
+        System.out.println("oluyo mu");
         return surveyService.getSurveys();
     }
 
     @GetMapping("/{surveyId}")
-    public Survey getOneSurvey(@PathVariable Long surveyId){
-        return surveyService.getOneSurvey(surveyId);
+    public SurveyResponse getOneSurvey(@PathVariable Long surveyId){
+        return surveyService.getOneSurveyWithOptions(surveyId);
+    }
+
+    @GetMapping("/{surveyId}/results")
+    public ResultResponse getResultsOneSurvey(@PathVariable Long surveyId){
+        return surveyService.getResultsOneSurvey(surveyId);
     }
 
     @PostMapping

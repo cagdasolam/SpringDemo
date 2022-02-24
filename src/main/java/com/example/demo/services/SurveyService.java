@@ -5,7 +5,12 @@ import com.example.demo.entity.User;
 import com.example.demo.repos.SurveyRepo;
 import com.example.demo.request.SurveyCreateRequest;
 import com.example.demo.request.SurveyUpdateRequest;
+import com.example.demo.responses.OptionResponse;
+import com.example.demo.responses.OptionResultResponse;
+import com.example.demo.responses.ResultResponse;
+import com.example.demo.responses.SurveyResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,15 +19,20 @@ import java.util.Optional;
 @Service
 public class SurveyService {
 
-    private final SurveyRepo surveyRepo;
-    private final UserService userService;
-
+    private SurveyRepo surveyRepo;
+    private UserService userService;
+    private OptionService optionService;
+    private ResultService resultService;
 
     @Autowired
-    public SurveyService(SurveyRepo surveyRepo, UserService userService){
+    public SurveyService(SurveyRepo surveyRepo, UserService userService, @Lazy OptionService optionService, ResultService resultService){
         this.surveyRepo = surveyRepo;
         this.userService = userService;
+        this.optionService = optionService;
+        this.resultService = resultService;
     }
+
+
 
     public List<Survey> getSurveys() {
         return surveyRepo.findAll();
@@ -57,5 +67,17 @@ public class SurveyService {
 
     public void deleteSurvey(Long surveyId) {
         surveyRepo.deleteById(surveyId);
+    }
+
+    public SurveyResponse getOneSurveyWithOptions(Long surveyId) {
+        Survey survey = surveyRepo.findById(surveyId).orElse(null);
+        List<OptionResponse> options = optionService.getAllOptions(Optional.of(surveyId));
+        return new SurveyResponse(survey, options);
+    }
+
+    public ResultResponse getResultsOneSurvey(Long surveyId) {
+        Survey survey = surveyRepo.findById(surveyId).orElse(null);
+        List<OptionResultResponse> responses = resultService.getAllResults(Optional.of(surveyId));
+        return new ResultResponse(survey, responses);
     }
 }
