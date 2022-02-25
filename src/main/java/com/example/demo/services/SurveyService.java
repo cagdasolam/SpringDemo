@@ -5,10 +5,7 @@ import com.example.demo.entity.User;
 import com.example.demo.repos.SurveyRepo;
 import com.example.demo.request.SurveyCreateRequest;
 import com.example.demo.request.SurveyUpdateRequest;
-import com.example.demo.responses.OptionResponse;
-import com.example.demo.responses.OptionResultResponse;
-import com.example.demo.responses.ResultResponse;
-import com.example.demo.responses.SurveyResponse;
+import com.example.demo.responses.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -25,7 +22,8 @@ public class SurveyService {
     private ResultService resultService;
 
     @Autowired
-    public SurveyService(SurveyRepo surveyRepo, UserService userService, @Lazy OptionService optionService, ResultService resultService){
+    public SurveyService(SurveyRepo surveyRepo, UserService userService,
+                         @Lazy OptionService optionService, @Lazy ResultService resultService){
         this.surveyRepo = surveyRepo;
         this.userService = userService;
         this.optionService = optionService;
@@ -44,8 +42,8 @@ public class SurveyService {
 
 
     public Survey addSurvey(SurveyCreateRequest newSurvey) {
-        User user = userService.getOneUser(newSurvey.getUserId());
-        if (user == null)
+        UserResponse userResponse = userService.getOneUser(newSurvey.getUserId());
+        if (userResponse == null)
             return null;
         Survey toSave = new Survey();
         toSave.setId(newSurvey.getId());

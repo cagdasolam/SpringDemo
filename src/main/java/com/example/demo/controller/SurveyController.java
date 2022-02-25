@@ -23,7 +23,6 @@ public class SurveyController {
 
     @GetMapping
     public List<Survey> getSurvey(){
-        System.out.println("oluyo mu");
         return surveyService.getSurveys();
     }
 

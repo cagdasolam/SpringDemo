@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Option;
 import com.example.demo.entity.Result;
 import com.example.demo.entity.Survey;
+import com.example.demo.request.ResultCreateRequest;
 import com.example.demo.responses.OptionResultResponse;
 import com.example.demo.responses.ResultResponse;
 import com.example.demo.services.ResultService;
@@ -26,4 +27,11 @@ public class ResultController {
     public List<OptionResultResponse> getResults(@RequestParam Optional<Long> surveyId){
         return resultService.getAllResults(surveyId);
     }
+
+    @PostMapping
+    public Result addResult(@RequestBody ResultCreateRequest resultCreateRequest){
+        return resultService.addResult(resultCreateRequest);
+    }
+
+
 }

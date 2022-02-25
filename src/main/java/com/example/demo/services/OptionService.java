@@ -10,6 +10,7 @@ import com.example.demo.request.OptionCreateRequest;
 import com.example.demo.request.OptionUpdateRequest;
 import com.example.demo.responses.OptionResponse;
 import com.example.demo.responses.OptionResultResponse;
+import com.example.demo.responses.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,16 +60,14 @@ public class OptionService {
     }
 
     public Option createOption(OptionCreateRequest optionCreateRequest) {
-        User user = userService.getOneUser(optionCreateRequest.getUserId());
+        UserResponse user = userService.getOneUser(optionCreateRequest.getUserId());
         Survey survey = surveyService.getOneSurvey(optionCreateRequest.getSurveyId());
-        System.out.println("option eklendi");
 
         if (user != null && survey != null){
             Option optionToSave = new Option();
             optionToSave.setId(optionCreateRequest.getId());
             optionToSave.setSurvey(survey);
             optionToSave.setText(optionCreateRequest.getText());
-
             return optionRepo.save(optionToSave);
         }
         return null;
