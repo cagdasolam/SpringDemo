@@ -8,6 +8,7 @@ import com.example.demo.request.AddRoleRequest;
 import com.example.demo.request.RoleCreateRequest;
 import com.example.demo.responses.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,11 +22,13 @@ public class UserService {
 
     private final UserRepo userRepository;
     private final RoleRepo roleRepo;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepo userRepository, RoleRepo roleRepo) {
+    public UserService(UserRepo userRepository, RoleRepo roleRepo, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepo = roleRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getUser() {
@@ -38,10 +41,11 @@ public class UserService {
     }
 
     public void addUser(User user) {
-        Optional<User> userOptional = userRepository.findById(user.getId());
+        Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(user.getEmail()));
         if (userOptional.isPresent()){
             throw new IllegalStateException("user is already exist");
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 

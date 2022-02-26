@@ -29,16 +29,9 @@ public class JwtUserDetails implements UserDetails {
 
     public static JwtUserDetails createUser(User user) {
         List<GrantedAuthority> authoritiesList = new ArrayList<>();
-        authoritiesList.add(new SimpleGrantedAuthority("user"));
+        user.getRoles().forEach(role -> authoritiesList.add(new SimpleGrantedAuthority(role.getName() )));
         return new JwtUserDetails(user.getId(), user.getEmail(), user.getPassword(), authoritiesList);
     }
-
-//    public static JwtUserDetails createAdmin(User user) {
-//        List<GrantedAuthority> authoritiesList = new ArrayList<>();
-//        authoritiesList.add(new SimpleGrantedAuthority("admin"));
-//        return new JwtUserDetails(user.getId(), user.getEmail(), user.getPassword(), authoritiesList);
-//    }
-
 
     @Override
     public boolean isAccountNonExpired() {

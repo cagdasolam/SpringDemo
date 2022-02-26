@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
@@ -24,19 +23,10 @@ public class UserDetailsService implements org.springframework.security.core.use
         return JwtUserDetails.createUser(user);
     }
 
-//    public UserDetails loadAdminByUsername(String username) throws UsernameNotFoundException{
-//        User user = userRepo.findByEmail(username);
-//        return JwtUserDetails.createAdmin(user);
-//    }
 
     public UserDetails loadUserById(Long id) {
         User user = userRepo.findById(id).get();
         return JwtUserDetails.createUser(user);
     }
-
-//    public UserDetails loadAdminById(Long id){
-//        User user = userRepo.findById(id).get();
-//        return JwtUserDetails.createAdmin(user);
-//    }
 
 }
