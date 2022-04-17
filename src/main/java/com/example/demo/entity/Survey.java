@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Data
 public class Survey {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
     @Lob

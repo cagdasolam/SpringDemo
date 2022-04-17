@@ -6,6 +6,7 @@ import com.example.demo.repos.RoleRepo;
 import com.example.demo.repos.UserRepo;
 import com.example.demo.request.AddRoleRequest;
 import com.example.demo.request.RoleCreateRequest;
+import com.example.demo.request.UserPasswordUpdateRequest;
 import com.example.demo.responses.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,12 +50,12 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User updateUser(Long userId, User newUser) {
+    public User updateUserPassword(Long userId, UserPasswordUpdateRequest newUser) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()){
             User foundUser = user.get();
-            foundUser.setEmail(newUser.getEmail());
-            foundUser.setPassword(newUser.getPassword());
+//            foundUser.setEmail(newUser.getEmail());
+            foundUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
             return userRepository.save(foundUser);
         }else{
             return null;

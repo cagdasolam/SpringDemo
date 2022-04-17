@@ -1,15 +1,11 @@
 package com.example.demo.services;
 
 import com.example.demo.entity.Option;
-import com.example.demo.entity.Result;
 import com.example.demo.entity.Survey;
-import com.example.demo.entity.User;
 import com.example.demo.repos.OptionRepo;
-import com.example.demo.repos.ResultRepo;
 import com.example.demo.request.OptionCreateRequest;
 import com.example.demo.request.OptionUpdateRequest;
 import com.example.demo.responses.OptionResponse;
-import com.example.demo.responses.OptionResultResponse;
 import com.example.demo.responses.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,5 +81,9 @@ public class OptionService {
 
     public void deleteOption(Long optionId) {
         optionRepo.deleteById(optionId);
+    }
+
+    public Optional<Option> findById(Long optionId){
+        return optionRepo.findById(optionId);
     }
 }

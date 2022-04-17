@@ -23,15 +23,11 @@ public class ResultController {
         this.resultService = resultService;
     }
 
-    @GetMapping
+    @GetMapping("/{surveyId}")
     public List<OptionResultResponse> getResults(@RequestParam Optional<Long> surveyId){
         return resultService.getAllResults(surveyId);
     }
 
-    @PostMapping
-    public Result addResult(@RequestBody ResultCreateRequest resultCreateRequest){
-        return resultService.addResult(resultCreateRequest);
-    }
 
 
 }

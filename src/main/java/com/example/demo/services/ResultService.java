@@ -21,13 +21,11 @@ public class ResultService {
     private final ResultRepo resultRepo;
     private final OptionRepo optionRepo;
     private UserService userService;
-    private SurveyService surveyService;
 
     public ResultService(ResultRepo resultRepo, OptionRepo optionRepo, UserService userService, SurveyService surveyService) {
         this.resultRepo = resultRepo;
         this.optionRepo = optionRepo;
         this.userService = userService;
-        this.surveyService = surveyService;
     }
 
     public List<OptionResultResponse> getAllResults(Optional<Long> surveyId) {
@@ -40,16 +38,8 @@ public class ResultService {
         return list.stream().map(option -> new OptionResultResponse(option, resultRepo)).collect(Collectors.toList());
     }
 
-    public Result addResult(ResultCreateRequest resultCreateRequest) {
-        UserResponse user = userService.getOneUser(resultCreateRequest.getUserId());
-        Option option = optionRepo.findById(resultCreateRequest.getOptionId()).get();
-        Survey survey = surveyService.getOneSurvey(resultCreateRequest.getSurveyId());
-        if (user == null || option == null)
-            return null;
-        Result resultToSave = new Result();
-        resultToSave.setId(resultCreateRequest.getId());
-        resultToSave.setOption(option);
-        resultToSave.setSurvey(survey);
+
+    public Result saveAnswer(Result resultToSave){
         return resultRepo.save(resultToSave);
     }
 

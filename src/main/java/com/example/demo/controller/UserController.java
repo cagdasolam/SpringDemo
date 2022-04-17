@@ -4,6 +4,7 @@ import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.request.AddRoleRequest;
 import com.example.demo.request.RoleCreateRequest;
+import com.example.demo.request.UserPasswordUpdateRequest;
 import com.example.demo.responses.UserResponse;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +35,10 @@ public class UserController
         return userService.getOneUser(userId);
     }
 
-    @PostMapping("/registerUser")
-    public void registerNewUser(@RequestBody User user){
-        userService.addUser(user);
-    }
 
     @PutMapping("/{userId}")
-    public User updateUser(@PathVariable Long userId, @RequestBody User newUser){
-        return userService.updateUser(userId, newUser);
+    public User updateUser(@PathVariable Long userId, @RequestBody UserPasswordUpdateRequest newUser){
+        return userService.updateUserPassword(userId, newUser);
     }
 
     @DeleteMapping("/{userId}")

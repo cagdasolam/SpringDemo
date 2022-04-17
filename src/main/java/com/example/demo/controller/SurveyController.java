@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Survey;
+import com.example.demo.request.ResultCreateRequest;
 import com.example.demo.request.SurveyCreateRequest;
 import com.example.demo.request.SurveyUpdateRequest;
 import com.example.demo.responses.ResultResponse;
@@ -36,7 +37,7 @@ public class SurveyController {
         return surveyService.getResultsOneSurvey(surveyId);
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public Survey registerNewSurvey(@RequestBody SurveyCreateRequest newSurvey){
         return surveyService.addSurvey(newSurvey);
     }
@@ -50,4 +51,9 @@ public class SurveyController {
     public void deleteSurvey( @PathVariable Long surveyId){
         surveyService.deleteSurvey(surveyId);
     }
+
+     @PostMapping("/answer")
+    public void giveAnswer(@RequestBody ResultCreateRequest resultCreateRequest){
+        surveyService.giveAnswer(resultCreateRequest);
+     }
 }

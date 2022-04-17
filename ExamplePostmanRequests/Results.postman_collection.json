@@ -1,0 +1,29 @@
+{
+	"info": {
+		"_postman_id": "989dd2d3-bf74-4936-a52c-c3ce7d130a07",
+		"name": "Results",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getResults",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/results/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"results",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

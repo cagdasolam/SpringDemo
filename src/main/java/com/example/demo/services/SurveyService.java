@@ -1,8 +1,10 @@
 package com.example.demo.services;
 
+import com.example.demo.entity.Option;
+import com.example.demo.entity.Result;
 import com.example.demo.entity.Survey;
-import com.example.demo.entity.User;
 import com.example.demo.repos.SurveyRepo;
+import com.example.demo.request.ResultCreateRequest;
 import com.example.demo.request.SurveyCreateRequest;
 import com.example.demo.request.SurveyUpdateRequest;
 import com.example.demo.responses.*;
@@ -78,4 +80,18 @@ public class SurveyService {
         List<OptionResultResponse> responses = resultService.getAllResults(Optional.of(surveyId));
         return new ResultResponse(survey, responses);
     }
+
+    public void giveAnswer(ResultCreateRequest resultCreateRequest) {
+        UserResponse user = userService.getOneUser(resultCreateRequest.getUserId());
+        Option option = optionService.findById(resultCreateRequest.getOptionId()).get();
+        Survey survey = getOneSurvey(resultCreateRequest.getSurveyId());
+        if (user == null || option == null)
+            return;
+        Result resultToSave = new Result();
+        resultToSave.setId(resultCreateRequest.getId());
+        resultToSave.setOption(option);
+        resultToSave.setSurvey(survey);
+        resultService.saveAnswer(resultToSave);
+    }
+
 }
